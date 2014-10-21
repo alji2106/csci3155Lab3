@@ -155,10 +155,10 @@ object Lab3 extends jsy.util.JsyApplication {
       //case Binary(bop @ (Eq | Ne), e1, e2) => throw new UnsupportedOperationException
       case Binary(Eq, e1, e2) => e1 match{
         case Function(x, y, z) => throw new DynamicTypeError(e)
-    case _ => e2 match{
-      case Function(x, y, z) => throw new DynamicTypeError(e)
-      case _ => B(eToVal(e1) == eToVal(e2))
-    } 
+        case _ => e2 match{
+          case Function(x, y, z) => throw new DynamicTypeError(e)
+          case _ => B(eToVal(e1) == eToVal(e2))
+        } 
       }
       
       case Binary(Ne, e1, e2) => e1 match{
@@ -235,7 +235,6 @@ object Lab3 extends jsy.util.JsyApplication {
       }
       //case Binary(Seq, v1, e1) if (isValue(v1)) => e1
       case Binary(bop, v1, v2) if (isValue(v1) && isValue(v2)) => bop match {
-        case Seq => v2
         case Plus => (v1, v2) match {
           case (S(s), v2) => S(s + toStr(v2))
           case (v1, S(s)) => S(toStr(v1) + s)
@@ -262,6 +261,7 @@ object Lab3 extends jsy.util.JsyApplication {
             }
           }
         }
+        case Seq => v2
         case (bop @ (Lt | Le | Gt | Ge)) => B(inequalityVal(bop, v1,v2))
         case Ne => (v1, v2) match {
           case (Function(_,_,_), v2) => throw new DynamicTypeError(e)
